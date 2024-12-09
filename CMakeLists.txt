@@ -1,8 +1,15 @@
 cmake_minimum_required(VERSION 3.5.0)
 project(SimilarityChecker VERSION 0.1.0 LANGUAGES C CXX)
 
-add_executable(SimilarityChecker main.cpp node.cpp)
+# Automatically find all source and header files
+file(GLOB SOURCE_FILES src/*.cpp)
+file(GLOB HEADER_FILES include/*.h)
 
+# Add executable and specify source files
+add_executable(SimilarityChecker ${SOURCE_FILES})
+
+# Include the header files directory
+target_include_directories(SimilarityChecker PRIVATE include)
 
 include(CTest)
 enable_testing()
