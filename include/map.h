@@ -11,11 +11,7 @@ class Map{
      */
     virtual bool put(const KeyType& key, const ValueType& value) = 0;
     /**
-     * @brief Removes a kv-pair from the map. Returns true if done sucessful
-     */
-    virtual bool remove(const KeyType& key) = 0;
-    /**
      * @brief Function to lookup kv-pairs
      */
-    virtual ValueType lookup(const KeyType& key) const = 0;
+    virtual ValueType get(const KeyType& key) const = 0;
 };

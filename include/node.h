@@ -1,5 +1,4 @@
 template <typename KeyType, typename ValueType>
-//requires std::totally_ordered<KeyType>
 /**
  * @brief Class to structure nodes
  */
@@ -13,59 +12,56 @@ public:
 
     Node(const KeyType& k, const ValueType& v, int s = 1)
         : key(k), value(v), left_child(nullptr), right_child(nullptr), size(s) {}
+
     /**
      * Functions
      */
-    void get_size(){
-        return size;
-    }
-
-    void set_size(int new_size){
-        size = new_size;
-    }
-
-    ValueType get_value(){
-        return value;
-    }
-
-    void set_value(ValueType new_value){
-        value = new_value;
-    }
-
-    KeyType get_key(){
-        return key;
-    }
-
-    Node* get_left_child(){
-        return left_child;
-    }
-    void set_left_child(Node* new_left_child){
-        left_child = new_left_child;
-    }
-    
-    Node* get_right_child(){
-        return right_child;
-    }
-    
-    void set_right_child(Node* new_right_child){
-        right_child = new_right_child;
-    }
-
-    bool put(KeyType key, ValueType value){
-        put_helper(this, key, value);
-        return true;
-    }
-
-    bool put_helper(Node* node, KeyType key, ValueType value){
-        if (node == nullptr){
-            return Node(key, value);
+public:
+    void put(KeyType key, ValueType value){
+        if (key < node->key){
+            if(this->left_child){
+                this->left_child->put(key, value);
+            }
+            else{
+                this->left_child = new Node(key, value);
+            }
         }
-        if (key < node->get_key()){
-            return node->set_left_child()
+        if (key > node->key){
+            if (this->right_child){
+                return this->right_child->put(key,value);
+            }
+            else{
+                this->right_child = new Node(key,value);
+            }
         }
-        if (key > node->get_key()){
-            return node->set_right_child()
+        // If the current node has the same key as key
+        else{
+            this->value = value;
         }
-        
+    }
+
+    ValueType get(KeyType key){
+        if (key < this->key){
+            if(this->left_child){
+                return this->left_child->get(key);
+            }
+            return NULL;
+        }
+        if (key > this->key){
+            if(this->right_child){
+                return this->right_child->get(key);
+            }
+            return NULL;
+        }
+        return this->value;
+    }
+
+private:
+    /**
+     * Function to update size. In case of AVL-node, also updated height
+     */
+    void update_height_and_size(){
+        this->size = (this->left_child ? this->left_child->size : 0) + 
+             (this->right_child ? this->right_child->size : 0) + 1;
     }
 };
