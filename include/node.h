@@ -1,7 +1,6 @@
+#ifndef NODE_H
+#define NODE_H
 template <typename KeyType, typename ValueType>
-/**
- * @brief Class to structure nodes
- */
 class Node{
 public:
     KeyType key;
@@ -18,7 +17,7 @@ public:
      */
 public:
     void put(KeyType key, ValueType value){
-        if (key < node->key){
+        if (key < this->key){
             if(this->left_child){
                 this->left_child->put(key, value);
             }
@@ -26,7 +25,7 @@ public:
                 this->left_child = new Node(key, value);
             }
         }
-        if (key > node->key){
+        if (key > this->key){
             if (this->right_child){
                 return this->right_child->put(key,value);
             }
@@ -65,3 +64,4 @@ private:
              (this->right_child ? this->right_child->size : 0) + 1;
     }
 };
+#endif
