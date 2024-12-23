@@ -21,7 +21,7 @@ public:
         }
     }
 
-    ValueType get(const KeyType& key) const override{
+    ValueType* get(const KeyType& key) const override{
         if (root){
             return root->get(key);
         }

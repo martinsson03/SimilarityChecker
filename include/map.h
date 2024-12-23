@@ -13,6 +13,6 @@ public:
     /**
      * @brief Function to lookup kv-pairs
      */
-    virtual ValueType get(const KeyType& key) const = 0;
+    virtual ValueType* get(const KeyType& key) const = 0;
 };
 #endif

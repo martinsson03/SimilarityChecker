@@ -39,20 +39,25 @@ public:
         }
     }
 
-    ValueType get(KeyType key){
+    ValueType* get(KeyType key){
         if (key < this->key){
+            // Check if left-child exists
             if(this->left_child){
                 return this->left_child->get(key);
             }
-            return NULL;
+            return nullptr;
         }
         if (key > this->key){
+            // Check if right-child exists
             if(this->right_child){
                 return this->right_child->get(key);
             }
-            return NULL;
+            return nullptr;
         }
-        return this->value;
+        if (this->key != key){
+            return nullptr;
+        }
+        return &this->value;
     }
 
 private:
