@@ -7,6 +7,7 @@
 #include "list"
 
 enum TreeType{
+    UNKNOWN,
     BST_MAP,
     AVL_MAP,
     STD
@@ -15,10 +16,14 @@ enum TreeType{
 // Variables to store the current setup
 int ngram_size;
 std::string folder_path;
-TreeType tType;
+TreeType tType = UNKNOWN;
 
 int main(int argc, char* argv[]){
-    
+    fetch_argument(argc, argv);
+    print_setup();
+    print_setup();
+    print_setup();
+
 }
 
 /**
@@ -26,7 +31,7 @@ int main(int argc, char* argv[]){
  * @return 1 if success, 0 if fail
  */
 int fetch_argument(int argc, char* argv[]){
-    std::string current_prefix = nullptr;
+    std::string current_prefix;
     int i = 0;
 
     while(i < argc){
@@ -37,47 +42,28 @@ int fetch_argument(int argc, char* argv[]){
         }
 
         // If argument
-        else if (input != nullptr){
-            
-        }
-
-    }
-
-
-    std::list<std::string> input;
-    int i = 0;
-    // Insert all arguments to the input list
-    while (i < argc){
-        std::string input_string = argv[i];
-        input.push_back(input_string);
-    }
-
-    i = 0;
-    std::list<std::string>::iterator it = input.begin();
-    while(it != input.end()){
-        std::string prefix = *it;
-        it++;
-        if (it == input.end()){
-            break;
-        }
-        std::string argument = *it;
-        it++;
-
-        if (prefix.compare("-d") == 0){
-            folder_path = argument;
-        }
-        if (prefix.compare("-map") == 0){
-            if (argument.compare("AVL")){
-                tType = AVL_MAP;
+        else if (!input.empty()){
+            if (current_prefix.compare("-d") == 0){
+                folder_path = input;
             }
-            else if (argument.compare("BST")){
-                tType = BST_MAP;
-            }
-            else{
-                tType = STD;
+            else if (current_prefix.compare("-map") == 0){
+                if (input.compare("AVL") == 0){
+                    tType = AVL_MAP;
+                }
+                else if(input.compare("BST") == 0){
+                    tType = BST_MAP;
+                }
+                else{
+                    tType = STD;
+                }
             }
         }
+        else{
+            return 0;
+        }
+        i++;
     }
+    return 1;
 }
 
 void print_setup(void){
@@ -91,7 +77,9 @@ void print_setup(void){
             break;
         case AVL_MAP:
             std::cout << "TreeType = AVL" << std::endl;
+            break;
         default:
             std::cout << "ERROR when assigning tree-type" << std::endl;
+            break;
     }
 }
