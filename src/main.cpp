@@ -2,6 +2,7 @@
 #include <filesystem>
 #include <string>
 #include <direct.h>
+#include <fstream>
 
 #include "node.h"
 #include "map.h"
@@ -52,11 +53,29 @@ int main(int argc, char* argv[]){
     print_setup();
 
     //Build the ngram_map
-    for (const auto &entry : filesystem::directory_iterator(folder_path)){
-        std::cout << entry << std::endl;
-    }
-    print_setup();
+    try{
+        cout << "Building ngram_map" << endl;
+        for (const auto &entry : filesystem::directory_iterator(folder_path)){
+            string file_path = entry.path().string();
+            
+            ifstream input_file(file_path);
+            
+            stringstream buffer;
+            buffer << input_file.rdbuf();
+            string file_content = buffer.str();
 
+            
+
+        }
+    }
+    catch(...){
+        cout << "Error when reading files... Exiting..." << endl;
+        return 0;
+    }
+
+
+
+    
 }
 
 /**
